@@ -1,71 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { authenticate, fetchGalleries, fetchMetadata } from './api';
+import { authenticate as Authenticate, fetchGalleries, fetchMetadata } from './api';
 import axios from 'axios';
 import mongoose from 'mongoose';
 
-const App = () => {
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    
-    if (code) {
-      axios.post('/api/token', { code })
-        .then((response) => {
-          setToken(response.data.access_token);
-          window.history.replaceState({}, document.title, window.location.pathname);
-        })
-        .catch(err => {
-          setError('Authentication failed: ' + err.message);
-        });
-    }
-  }, []);
-
-  const handleFetchGalleries = async () => {
-    if (!token) {
-      authenticate();
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const galleries = await fetchGalleries(token);
-
-      for (const gallery of galleries) {
-        const metadata = await fetchMetadata(token, gallery.deviationid);
-        await axios.post('/api/deviations', {
-          deviationId: gallery.deviationid,
-          title: gallery.title,
-          url: gallery.url,
-          views: metadata.views,
-          // Add more fields as needed
-        });
-      }
-    } catch (err) {
-      setError('Failed to fetch galleries or metadata: ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-  
-  return (
-    <div>
-      <h1>DeviantArt Gallery Fetcher</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button onClick={handleFetchGalleries} disabled={loading}>
-        {loading ? 'Loading...' : 'Fetch Artworks'}
-      </button>
-    </div>
-  );
-};
-
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// Mongoose schema and model
 const deviationSchema = new mongoose.Schema({
     deviationID: String,
     metaDevID: String,
@@ -92,5 +33,98 @@ const deviationSchema = new mongoose.Schema({
 });
 
 const Deviation = mongoose.model('Deviation', deviationSchema);
+
+const App = () => {
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [galleries, setGalleries] = useState([]);
+
+  const authenticateUser = async () => {
+    try {
+      const newToken = await Authenticate();
+      setToken(newToken);
+    } catch (err) {
+      setError(`Failed to authenticate: ${err.message}`);
+    }
+  };
+
+  const handleFetchGalleries = async () => {
+    if (!token) {
+      await authenticateUser();
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const newGalleries = await fetchGalleries(token);
+      setGalleries(newGalleries);
+      await Promise.all(newGalleries.map(async (gallery) => {
+        const metadata = await fetchMetadata(token, gallery.deviationid);
+        return axios.post('/api/deviations', {
+          deviationId: gallery.deviationid,
+          title: gallery.title,
+          url: gallery.url,
+          views: metadata.views,
+          // Add more fields as needed
+        });
+      }));
+    } catch (err) {
+      setError(`Failed to fetch galleries or metadata: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFetchMetadata = async (deviationId) => {
+    if (!token) {
+      await authenticateUser();
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const metadata = await fetchMetadata(token, deviationId);
+      console.log(metadata);
+    } catch (err) {
+      setError(`Failed to fetch metadata: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchTokenFromUrl = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+
+      if (code) {
+        try {
+          const response = await axios.post('/api/token', { code });
+          setToken(response.data.access_token);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (err) {
+          setError(`Authentication failed: ${err.message}`);
+        }
+      }
+    };
+
+    fetchTokenFromUrl();
+  }, []);
+
+  return (
+    <div>
+      <h1>DeviantArt Gallery Fetcher</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <button onClick={handleFetchGalleries} disabled={loading}>
+        {loading ? 'Loading...' : 'Fetch Artworks'}
+      </button>
+    </div>
+  );
+};
 
 export default App;

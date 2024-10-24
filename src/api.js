@@ -9,7 +9,7 @@ let ACCESS_TOKEN = ''; // Access token to be set after authentication
 const BASE_URL = 'https://www.deviantart.com/api/v1/oauth2';
 
 // Function to initiate the OAuth flow. Redirects the user to DeviantArt's authorization page
-export const authorize = () => {
+export const authenticate = () => {
   const authUrl = `https://www.deviantart.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
   window.location.href = authUrl; // Redirect user to authorize
 };
