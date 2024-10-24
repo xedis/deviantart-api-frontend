@@ -4,7 +4,7 @@ Once retrieved the user should be able to see a thumbnail of each and modifiable
 At any time during modifying the user should be able to push the modified data back into deviantart. 
 
 ### !!!!IMPORTANT!!!!
-If providing code changes, provide only the full modified file. I suck at patchworking it together based on your notes.
+If providing code changes, provide only the full modified file.
 ### !!!!IMPORTANT!!!!
 
 ### HTML Files
