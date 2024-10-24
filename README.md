@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+### TASK/GOAL/WHAT THE FUCK WE ARE DOING!
+Web app that leverages deviantart's api to authenticate for the purposes of retrieving all of a users images they have posted, responses will be parsed into mongodb and then displayed to the user.
+Once retrieved the user should be able to see a thumbnail of each and modifiable fields for the data retrieved that is populated into mongodb. 
+At any time during modifying the user should be able to push the modified data back into deviantart. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### !!!!IMPORTANT!!!!
+If providing code changes, provide only the full modified file. I suck at patchworking it together based on your notes.
+### !!!!IMPORTANT!!!!
 
-## Available Scripts
+### HTML Files
 
-In the project directory, you can run:
+#### `public/index.html`
+- **Core Structure:**
+  - Basic HTML5 template for the React app (`<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`).
+  - Includes meta tags for charset, viewport, theme color, and description.
+  - Links to favicon, apple-touch-icon, and manifest.json.
+  - An empty `<div id="root"></div>` where the React app is rendered.
 
-### `npm start`
+### JSON Files
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### `public/manifest.json`
+- **PWA Configuration:**
+  - `short_name`: "React App".
+  - `name`: "Create React App Sample".
+  - Icons for the application with their sizes and types.
+  - Entry points for the app: 
+    - `start_url`: The root URL when launched.
+    - `display`: Standalone for a full app experience.
+  - Theme and background colors defined.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### `public/robots.txt`
+- **Robots Exclusion Standard:**
+  - `User-agent: *` allows all.
+  - `Disallow:` allows all crawlers.
 
-### `npm test`
+### CSS Files
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### `src/App.css`
+- **Styles Application:**
+  - Centers content and sets text styles for the app.
+  - Defines animation and styles for the app logo and header.
 
-### `npm run build`
+#### `src/index.css`
+- **Global Styles:**
+  - Resets margin and sets a common font family for the body content.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `src/styles.css`
+- **Component Styles:**
+  - Styles for form elements, buttons, and positioning of the app container.
+  
+### JavaScript Files
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### `src/App.js`
+- **Main Functionality:**
+  - Integrates with DeviantArt API for authentication and fetching galleries.
+  - State management for `token`, `loading`, and `error`.
+  - `useEffect` to handle OAuth flow and store access token.
+  - `handleFetchGalleries` to fetch galleries and their metadata.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### `src/App.test.js`
+- **Testing Reference:**
+  - Verifies that a specific text is rendered in the app.
 
-### `npm run eject`
+#### `src/api.js`
+- **API Interaction Functions:**
+  - `authorize`: Redirects user to DeviantArt for authorization.
+  - `exchangeCodeForToken`: Exchanges the authorization code for an access token.
+  - `fetchArtworks`: Fetches artwork data using the access token.
+  - `fetchGalleries`: Retrieves user galleries.
+  - `fetchMetadata`: Gets metadata for a specific deviation.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### `src/index.js`
+- **Application Entry Point:**
+  - Renders the `App` component and initializes performance measuring via `reportWebVitals`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `src/reportWebVitals.js`
+- **Performance Monitoring:**
+  - Handles reporting of web vital metrics.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### `src/setupTests.js`
+- **Testing Setup:**
+  - Adds custom matchers for testing DOM elements.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Server Files
 
-## Learn More
+#### `deviantart-auth-server/server.js`
+- **Express Server Setup:**
+  - Sets up CORS for frontend requests.
+  - Handles the OAuth callback to exchange authorization code for an access token.
+  - Connects to MongoDB using Mongoose.
+  - Defines the `Deviation` schema for storing DeviantArt data.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### `deviantart-auth-server/package.json`
+- **Server Configuration:**
+  - Lists dependencies (axios, cors, dotenv, express, mongoose).
+  - Defines scripts for the server.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### `deviantart-auth-server/.env`
+- **Environment Variables:**
+  - `MONGO_URI`: Connection string for MongoDB.
+  - OAuth credentials (`CLIENT_ID`, `CLIENT_SECRET`, and `REDIRECT_URI`).
 
-### Code Splitting
+### Additional Notes
+- **OAuth Flow:**
+  - The application uses OAuth 2.0 for authentication, redirecting users to log in and granting access to their galleries.
+- **Error Handling:** 
+  - Errors are logged and returned in API functions to aid debugging.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This cheatsheet compiles essential information for each file, which can serve as a quick reference for your project. Feel free to save it as needed!

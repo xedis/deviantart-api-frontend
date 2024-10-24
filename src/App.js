@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { authenticate, fetchGalleries, fetchMetadata } from './api';
 import axios from 'axios';
+import mongoose from 'mongoose';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -50,17 +51,8 @@ const App = () => {
     } finally {
       setLoading(false);
     }
-      }
-  };
-  app.post('https://www.deviantart.com/api/v1/oauth2/gallery/all', async (req, res) => {
-    try {
-      const newDeviation = new Deviation(req.body);
-      await newDeviation.save();
-      res.status(200).json(newDeviation);
-    } catch (error) {
-      res.status(500).json({ error: 'Error saving deviation' });
-    }
-  });
+  }
+  
   return (
     <div>
       <h1>DeviantArt Gallery Fetcher</h1>
@@ -71,5 +63,34 @@ const App = () => {
     </div>
   );
 };
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const deviationSchema = new mongoose.Schema({
+    deviationID: String,
+    metaDevID: String,
+    title: String,
+    link: String,
+    published: String,
+    mature: String,
+    stats: String,
+    tierDeviationID: String,
+    downloadable: String,
+    tierName: String,
+    tierURL: String,
+    galleryName: String,
+    premiumGalleryID: String,
+    premType: String,
+    dollarPrice: String,
+    numSubs: String,
+    numViews: String,
+    thumbsLink: String,
+    matureLevel: String,
+    matureClass: String,
+    tags: [String],
+    desc: String
+});
+
+const Deviation = mongoose.model('Deviation', deviationSchema);
 
 export default App;

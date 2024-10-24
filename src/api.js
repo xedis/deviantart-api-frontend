@@ -1,20 +1,4 @@
-
-// Fetch the user's galleries
-export const fetchGalleries = async (token) => {
-  const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/gallery/all', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data.results;  // Adjust based on the actual response structure
-};
-
-// Fetch metadata for a specific deviation
-export const fetchMetadata = async (token, deviationId) => {
-  const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/deviation/metadata', {
-    params: { deviationids: deviationId },
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data.metadata;  // Adjust based on the actual response structure
-};import axios from 'axios';
+import axios from 'axios';
 
 // Your DeviantArt client credentials from environment variables
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -78,19 +62,20 @@ export const submitArt = async (artData) => {
     throw error;
   }
 };
+
 // Fetch the user's galleries
 export const fetchGalleries = async (token) => {
-  const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/gallery/all', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data.results;  // Adjust based on the actual response structure
-};
-
-// Fetch metadata for a specific deviation
-export const fetchMetadata = async (token, deviationId) => {
-  const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/deviation/metadata', {
-    params: { deviationids: deviationId },
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data.metadata;  // Adjust based on the actual response structure
-};
+    const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/gallery/all', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data.results;  // Adjust based on the actual response structure
+  };
+  
+  // Fetch metadata for a specific deviation
+  export const fetchMetadata = async (token, deviationId) => {
+    const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/deviation/metadata', {
+      params: { deviationids: deviationId },
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data.metadata;  // Adjust based on the actual response structure
+  };
