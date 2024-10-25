@@ -2,7 +2,7 @@
 import App from 'next/app';
 import React from 'react';
 import axios from 'axios';
-import Deviation from '../models/Deviation';
+import Deviation from './Deviation';
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
 const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
