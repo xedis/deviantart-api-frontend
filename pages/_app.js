@@ -76,6 +76,7 @@ const handleFetchGalleries = async (token) => {
     setLoading(false);
   }
 };
+/// Build out the UI for full data display:
 
   return (
     <div>
@@ -85,12 +86,26 @@ const handleFetchGalleries = async (token) => {
       ) : (
         <div>
           <button onClick={() => handleFetchGalleries(token)}>Fetch Galleries</button>
-          <ul>
+          <ul> 
             {galleries.map(gallery => (
               <li key={gallery.deviationID}>
                 <h2>{gallery.title}</h2>
+                <p>{gallery.username}</p>
+                <p>{gallery.date}</p>
+                <p>{gallery.deviationID}</p>
                 <img src={gallery.thumbsLink} alt={gallery.title} />
                 <p>{gallery.desc}</p>
+                <p>{gallery.url}</p>
+                <p>{gallery.deviationType}</p>
+                <p>{gallery.premiumDeviationID}</p>
+                <p>{gallery.premiumType}</p>
+                <p>{gallery.price}</p>
+
+                <p>{gallery.subs}</p>
+                <p>{gallery.views}</p>
+                <p>{gallery.thumbsLink}</p>
+                <p>{gallery.matureLevel}</p>
+                <p>{gallery.matureClass}</p>
               </li>
             ))}
           </ul>
@@ -102,4 +117,3 @@ const handleFetchGalleries = async (token) => {
 }
 
 export default MyApp;
-
