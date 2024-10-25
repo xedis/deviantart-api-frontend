@@ -45,5 +45,12 @@
   "main": "index.js",
   "author": "Xedis",
   "license": "MIT",
-  "repository": "https://github.com/xedis/deviantart-api-frontend.git"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xedis/deviantart-api-frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xedis/deviantart-api-frontend/issues"
+  },
+  "homepage": "https://github.com/xedis/deviantart-api-frontend#readme"
 }
