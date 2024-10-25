@@ -1,3 +1,4 @@
+/* deviantart-api-frontend/src/App.css */
 body {
   font-family: 'Orbitron', sans-serif;
   background-color: #000;
@@ -5,8 +6,8 @@ body {
 }
 
 button {
-  background-color: #333;
-  color: #fff;
+  background-color: #00ffcc; /* Changed button color */
+  color: black;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -14,5 +15,7 @@ button {
 }
 
 button:hover {
-  background-color: #444;
+  background-color: #ff00ff; /* Changed hover color */
 }
+
+/* Add more styles as needed for improved aesthetics */
