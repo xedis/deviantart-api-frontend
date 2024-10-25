@@ -1,20 +1,21 @@
 {
   "name": "deviantart-api-frontend",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "babel": "^6.23.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongoose": "^8.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4",
-    "webpack": "^5.95.0"
+    "react-scripts": "^3.0.1",
+    "ruff": "^1.5.4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,8 +44,9 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.25.9"
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "Ugh",
   "main": "index.js",
   "author": "Xedis",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/xedis/deviantart-api-frontend.git"
 }
