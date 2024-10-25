@@ -1,0 +1,11 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/App.test": "pages/App.test.js",
+  "/Deviation": "pages/Deviation.js",
+  "/_api": "pages/_api.js",
+  "/": "pages/index.js",
+  "/reportWebVitals": "pages/reportWebVitals.js",
+  "/setupTests": "pages/setupTests.js",
+  "/_document": "pages/_document.js"
+}
