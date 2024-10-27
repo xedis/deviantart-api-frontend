@@ -1,4 +1,3 @@
-// pages/_app.js
 import App from 'next/app';
 import React from 'react';
 import axios from 'axios';
@@ -50,33 +49,31 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  
-const handleFetchGalleries = async (token) => {
-  setLoading(true);
-  setError(null);
+  const handleFetchGalleries = async (token) => {
+    setLoading(true);
+    setError(null);
 
-  try {
-    const response = await axios.get(`${BASE_URL}/galleries`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        limit: 10, // Add pagination limit
-        offset: 0, // Add pagination offset
-      },
-    });
+    try {
+      const response = await axios.get(`${BASE_URL}/galleries`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit: 10, // Add pagination limit
+          offset: 0, // Add pagination offset
+        },
+      });
 
-    const newGalleries = response.data.galleries.map(gallery => new Deviation(gallery));
-    await Deviation.insertMany(newGalleries);
-    setGalleries(newGalleries);
-  } catch (error) {
-    console.error("Error fetching galleries:", error);
-    setError(error.message);
-  } finally {
-    setLoading(false);
-  }
-};
-/// Build out the UI for full data display:
+      const newGalleries = response.data.galleries.map(gallery => new Deviation(gallery));
+      await Deviation.insertMany(newGalleries);
+      setGalleries(newGalleries);
+    } catch (error) {
+      console.error("Error fetching galleries:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>

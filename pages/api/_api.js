@@ -10,41 +10,41 @@ const BASE_URL = 'https://www.deviantart.com/api/v1/oauth2';
 
 const DeviantArt = () => {
   const [token, setToken] = useState('');
-  const [artList, setArtList] = useState([]);
+  const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    const authCode = queryParams.get('code');
+    const authorizationCode = queryParams.get('code');
 
-    if (authCode) {
-      requestToken(authCode);
+    if (authorizationCode) {
+      exchangeCodeForToken(authorizationCode);
     }
   }, []);
 
-  const initiateAuth = () => {
-    const authEndpoint = `https://www.deviantart.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-    window.location.href = authEndpoint;
+  const initiateAuthentication = () => {
+    const authorizationEndpoint = `https://www.deviantart.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = authorizationEndpoint;
   };
 
-  const requestToken = async (authCode) => {
+  const exchangeCodeForToken = async (authorizationCode) => {
     try {
       const response = await axios.post(`${BASE_URL}/token`, null, {
         params: {
           client_id: CLIENT_ID,
           client_secret: CLIENT_SECRET,
-          code: authCode,
+          code: authorizationCode,
           grant_type: 'authorization_code',
           redirect_uri: REDIRECT_URI,
         },
       });
       setToken(response.data.access_token);
-      retrieveArtworks();
+      fetchArtworks();
     } catch (error) {
       console.error("Failed to exchange code for token:", error);
     }
   };
 
-  const retrieveArtworks = async () => {
+  const fetchArtworks = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/browse`, {
         headers: {
@@ -52,7 +52,7 @@ const DeviantArt = () => {
         },
         params: { limit: 10 },
       });
-      setArtList(response.data.results);
+      setArtworks(response.data.results);
     } catch (error) {
       console.error("Failed to fetch artworks:", error);
     }
@@ -61,15 +61,15 @@ const DeviantArt = () => {
   return (
     <div>
       {!token ? (
-        <button onClick={initiateAuth}>Authenticate</button>
+        <button onClick={initiateAuthentication}>Authenticate</button>
       ) : (
         <div>
           <h1>Artworks</h1>
           <ul>
-            {artList.map((art) => (
-              <li key={art.deviationid}>
-                <img src={art.preview.src} alt={art.title} />
-                <p>{art.title}</p>
+            {artworks.map((artwork) => (
+              <li key={artwork.deviationid}>
+                <img src={artwork.preview.src} alt={artwork.title} />
+                <p>{artwork.title}</p>
               </li>
             ))}
           </ul>
