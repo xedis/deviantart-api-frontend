@@ -1,1 +1,10 @@
-{"/_app":"pages/_app.js","/_error":"pages/_error.js","/Deviation":"pages/Deviation.html","/api/_api":"pages/api/_api.js","/api/auth":"pages/api/auth.js","/":"pages/index.html","/_document":"pages/_document.js","/404":"pages/404.html"}
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/Deviation": "pages/Deviation.js",
+  "/api/_api": "pages/api/_api.js",
+  "/api/auth": "pages/api/auth.js",
+  "/": "pages/index.js",
+  "/utils/auth": "pages/utils/auth.js",
+  "/_document": "pages/_document.js"
+}

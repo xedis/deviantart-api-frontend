@@ -1,12 +1,6 @@
-// src/api.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
-const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-
-const BASE_URL = 'https://www.deviantart.com/api/v1/oauth2';
+import { redirectToAuth, exchangeCodeForToken } from '../../utils/auth';
 
 const DeviantArt = () => {
   const [token, setToken] = useState('');
@@ -15,40 +9,27 @@ const DeviantArt = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const authorizationCode = queryParams.get('code');
+    const state = queryParams.get('state');
 
     if (authorizationCode) {
-      exchangeCodeForToken(authorizationCode);
+      exchangeCodeForToken(authorizationCode, state, document.cookie)
+        .then(({ access_token }) => {
+          setToken(access_token);
+          fetchArtworks(access_token);
+        })
+        .catch((error) => {
+          console.error("Failed to exchange code for token:", error);
+        });
+    } else {
+      redirectToAuth(window.location);
     }
   }, []);
 
-  const initiateAuthentication = () => {
-    const authorizationEndpoint = `https://www.deviantart.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-    window.location.href = authorizationEndpoint;
-  };
-
-  const exchangeCodeForToken = async (authorizationCode) => {
+  const fetchArtworks = async (accessToken) => {
     try {
-      const response = await axios.post(`${BASE_URL}/token`, null, {
-        params: {
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          code: authorizationCode,
-          grant_type: 'authorization_code',
-          redirect_uri: REDIRECT_URI,
-        },
-      });
-      setToken(response.data.access_token);
-      fetchArtworks();
-    } catch (error) {
-      console.error("Failed to exchange code for token:", error);
-    }
-  };
-
-  const fetchArtworks = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/browse`, {
+      const response = await axios.get(`https://www.deviantart.com/api/v1/oauth2/browse`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         params: { limit: 10 },
       });
@@ -58,26 +39,7 @@ const DeviantArt = () => {
     }
   };
 
-  return (
-    <div>
-      {!token ? (
-        <button onClick={initiateAuthentication}>Authenticate</button>
-      ) : (
-        <div>
-          <h1>Artworks</h1>
-          <ul>
-            {artworks.map((artwork) => (
-              <li key={artwork.deviationid}>
-                <img src={artwork.preview.src} alt={artwork.title} />
-                <p>{artwork.title}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+  return <div>{/* Render your component here */}</div>;
 };
 
 export default DeviantArt;
-
