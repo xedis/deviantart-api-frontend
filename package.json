@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^1.7.7",
+    "cookie": "^1.0.1",
     "crypto": "^1.0.1",
     "mongoose": "^8.7.2",
     "next": "^15.0.1"
@@ -35,10 +36,7 @@
   "main": "index.js",
   "author": "Xedis",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xedis/deviantart-api-frontend.git"
-  },
+  "repository": "git+https://github.com/xedis/deviantart-api-frontend.git",
   "bugs": {
     "url": "https://github.com/xedis/deviantart-api-frontend/issues"
   },

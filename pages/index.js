@@ -2,6 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+/**
+ * A Next.js page that displays a list of a user's DeviantArt deviations.
+ *
+ * If the user is not logged in, it displays a "Login with DeviantArt" button.
+ * If the user is logged in, it displays a list of their deviations.
+ *
+ * @return {ReactElement} The page element.
+ */
 export default function Home() {
   const [token, setToken] = useState(null);
   const [deviations, setDeviations] = useState([]);
@@ -10,18 +18,28 @@ export default function Home() {
   useEffect(() => {
     // Retrieve tokens from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const access_token = urlParams.get('access_token');
+    const accessToken = urlParams.get('access_token');
 
-    if (access_token) {
-      setToken(access_token);
-      fetchDeviations(access_token);
+    if (accessToken) {
+      setToken(accessToken);
+      fetchDeviations(accessToken);
     }
   }, []);
 
+  /**
+   * Redirects the user to the login page.
+   */
   const handleLogin = () => {
     window.location.href = 'https://da.xedis.net:5000/login';
   };
 
+  /**
+   * Fetches the user's deviations from DeviantArt.
+   *
+   * @param {string} accessToken The access token for the user.
+   *
+   * @return {Promise<void>} Resolves when the deviations are fetched.
+   */
   const fetchDeviations = async (accessToken) => {
     try {
       const response = await axios.get('https://www.deviantart.com/api/v1/oauth2/gallery/all', {
@@ -31,7 +49,11 @@ export default function Home() {
         },
       });
 
-      setDeviations(response.data.results);
+      if (response.data && response.data.results) {
+        setDeviations(response.data.results);
+      } else {
+        setError('Failed to fetch deviations.');
+      }
     } catch (error) {
       setError('Failed to fetch deviations.');
     }
