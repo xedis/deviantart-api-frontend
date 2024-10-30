@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState(null);
@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    const { code, error: authError } = router.query;
+    const { code, error: authError, state } = router.query;
 
     if (code) {
       // Exchange code for token
@@ -23,21 +23,28 @@ function MyApp({ Component, pageProps }) {
         .catch(err => {
           console.error('Error exchanging code for token:', err);
           setError('Failed to exchange code for token');
+          //code for state error handling and generation of state if missing
+          if (state) {
+            document.cookie = `state=${state}; path=/;`;
+          } else {
+            document.cookie = `state=${generateState()}; path=/;`;
+          }
         });
     } else if (authError) {
       setError(authError);
     }
   }, [router.query]);
 
-  // Wrap the Component with context providers if needed
+  useEffect(() => {
+    if (token) {
+      // Save token in cookies
+      document.cookie = `access_token=${token}; path=/;`;
+    }
+  }, [token]);
+
   return (
-    <Component 
-      {...pageProps} 
-      token={token} 
-      error={error} 
-      setError={setError}
-    />
-  );
+    <Component {...pageProps} />
+  )
 }
 
-export default MyApp;
+export default MyApp

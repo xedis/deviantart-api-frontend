@@ -16,7 +16,7 @@ export default function Home() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = 'https://da.xedis.net:5000/login';
+    window.location.href = '/api/auth';
   };
 
   return (
