@@ -8,9 +8,8 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const { code, error: authError, state } = router.query;
-
+  
     if (code) {
-      // Exchange code for token
       fetch('/api/auth?code=' + code)
         .then(response => response.json())
         .then(data => {
@@ -23,12 +22,6 @@ function MyApp({ Component, pageProps }) {
         .catch(err => {
           console.error('Error exchanging code for token:', err);
           setError('Failed to exchange code for token');
-          //code for state error handling and generation of state if missing
-          if (state) {
-            document.cookie = `state=${state}; path=/;`;
-          } else {
-            document.cookie = `state=${generateState()}; path=/;`;
-          }
         });
     } else if (authError) {
       setError(authError);

@@ -19,15 +19,6 @@ export const redirectToAuth = (res) => {
 
 export const exchangeCodeForToken = async (code, state, req, res) => {
   try {
-    console.log('exchangeCodeForToken called with code:', code, 'and state:', state);
-    const savedState = req.cookies.state;
-    console.log('Received state:', state);
-    console.log('Saved state:', savedState);
-    if (state !== savedState) {
-      throw new Error('Invalid state');
-    }
-
-    console.log('Exchanging code for token');
     const tokenEndpoint = `https://www.deviantart.com/oauth2/token`;
     const response = await axios.post(tokenEndpoint, new URLSearchParams({
       client_id: CLIENT_ID,
@@ -41,8 +32,8 @@ export const exchangeCodeForToken = async (code, state, req, res) => {
       },
     });
 
-    console.log('Token response:', response.data);
     const { access_token, refresh_token } = response.data;
+    console.log('Token response:', response.data);
 
     res.setHeader('Set-Cookie', [
       serialize('access_token', access_token, { httpOnly: true, secure: true, sameSite: 'strict' }),
@@ -51,7 +42,7 @@ export const exchangeCodeForToken = async (code, state, req, res) => {
 
     return { access_token, refresh_token };
   } catch (error) {
-    console.error('Error in exchangeCodeForToken:', error.message);
+    console.error('Error exchanging code for token:', error.message);
     console.error('Error response:', error.response?.data);
     throw error;
   }
