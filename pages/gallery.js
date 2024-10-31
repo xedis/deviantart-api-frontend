@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import Cookies from 'js-cookie';
+import DeviationTable from '../components/DeviationTable';
 
 const Gallery = () => {
   const [data, setData] = useState([]);
@@ -28,9 +29,7 @@ const Gallery = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table>
-          <TableRows data={data} />
-        </table>
+        <DeviationTable data={data} />
       )}
     </Layout>
   );
