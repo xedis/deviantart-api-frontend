@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 import Cookies from 'js-cookie';
-import DeviationTable from '../components/DeviationTable';
+import DeviationTable from '../../components/DeviationTable';
 
 const Gallery = () => {
   const [data, setData] = useState([]);

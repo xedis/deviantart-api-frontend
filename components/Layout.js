@@ -1,6 +1,7 @@
 // components/Layout.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DeviationTable from './DeviationTable';
 
 const Layout = () => {
   const [data, setData] = useState([]);
@@ -21,7 +22,7 @@ const Layout = () => {
         <p>Loading...</p>
       ) : (
         <table>
-          <TableRows data={data} />
+          <DeviationTable data={data} />
         </table>
       )}
     </div>
