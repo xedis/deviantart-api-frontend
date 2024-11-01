@@ -10,9 +10,18 @@ const Gallery = () => {
     const fetchData = async () => {
       setLoading(true);
       const accessToken = Cookies.get('access_token');
+      const state = Cookies.get('state');
       const response = await axios.get(`https://www.deviantart.com/api/v1/oauth2/gallery/all`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-DEVIA-STATE': state,
+        },
+        params: {
+          limit: 10,
+          offset: 0,
+          sort: 'recent',
+          order: 'desc'
         },
       });
       setData(response.data.results);
