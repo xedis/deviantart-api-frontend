@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       console.log('Exchanging code for token');
       const { access_token, refresh_token } = await exchangeCodeForToken(code, state, req, res);
       console.log('Token exchange successful, redirecting to home');
-      res.redirect('/gallery');
+      res.redirect('/?token=' + access_token);
     } catch (error) {
       console.error("Error exchanging code for token:", error);
       res.status(500).json({ error: 'Failed to exchange code for token', details: error.message });
