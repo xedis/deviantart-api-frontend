@@ -9,7 +9,7 @@ const STATE_LENGTH = 32;
 
 const generateState = () => crypto.randomBytes(STATE_LENGTH).toString('hex');
 
-export const redirectToAuth = (res) => {
+const redirectToAuth = (res) => {
   const state = generateState();
   console.log('Generated state:', state);
   const authUrl = `https://www.deviantart.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&scope=gallery+browse+publish&state=${state}`;
@@ -17,7 +17,7 @@ export const redirectToAuth = (res) => {
   res.redirect(authUrl);
 };
 
-export const exchangeCodeForToken = async (code, state, req, res) => {
+const exchangeCodeForToken = async (code, state, req, res) => {
   try {
     const tokenEndpoint = `https://www.deviantart.com/oauth2/token`;
     const response = await axios.post(tokenEndpoint, new URLSearchParams({
@@ -47,3 +47,5 @@ export const exchangeCodeForToken = async (code, state, req, res) => {
     throw error;
   }
 };
+
+export { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, STATE_LENGTH, generateState, redirectToAuth, exchangeCodeForToken };
