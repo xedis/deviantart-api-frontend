@@ -48,7 +48,7 @@ export default async function handler(req, res) {
         httpOnly: true,
         secure: false,
         sameSite: 'lax', // Adjust according to your needs
-        path: '/',
+        path: '/gallery',
         csrf: true, // Make sure it’s accessible on all pages
     }));
     

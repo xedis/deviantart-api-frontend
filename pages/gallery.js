@@ -1,19 +1,22 @@
 // pages/gallery.js
+"use client";
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+const accessToken = Cookies.get('access_token'); // Ensure you're getting the token from cookies        \
+const accessToken2 = Cookies.get(); // Access the token from cookies
+console.log('gallery: cookie get: :', accessToken, accessToken2);
 
 const gallery = () => {
     const [galleryItems, setGalleryItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const accessToken = Cookies.get('access_token'); // Access the token from cookies
-    console.log('gallery: accessToken:', accessToken);
+
 
     useEffect(() => {
         const fetchGallery = async () => {
             if (!accessToken) {
                 setError('Access token is missing. Please login again.');
-                setLoading(true);
+                setLoading(false);
                 return;
             }
 

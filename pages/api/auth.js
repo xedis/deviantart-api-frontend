@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         httpOnly: true,
         secure: false, // Change to true in production
         sameSite: 'lax', // Adjust according to your needs
-        path: '/', // Make sure it’s accessible on all pages
+        path: '/gallery', // Make sure it’s accessible on all pages
         csrf: true, // Make sure it’s accessible on all pages
         maxAge: 3600 * 24 * 30, // 30 days
         expires: new Date(Date.now() + 3600 * 24 * 30 * 1000) // 30 days
