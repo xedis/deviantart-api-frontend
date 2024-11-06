@@ -1,9 +1,7 @@
 // pages/gallery.js
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { CookieStorage } from 'local-storage-fallback';
 
-const storage = new CookieStorage();
 const gallery = () => {
     const [galleryItems, setGalleryItems] = useState([]);
     const [loading, setLoading] = useState(true);
