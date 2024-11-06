@@ -1,33 +1,35 @@
-// pages/index.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Home() {
-  const [token, setToken] = useState(null);
-  const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-
+    const accessToken = Cookies.get('access_token'); // Ensure you're getting the token from cookies
     if (accessToken) {
-      setToken(accessToken);
+      setIsLoggedIn(true);
+      console.log('User is already logged in'); // For debugging
+      window.location.href = '/gallery'; // Redirect to gallery if already logged in
+    } else {
+      console.log('No access token found. User is not logged in.'); // For debugging
     }
   }, []);
 
   const handleLogin = () => {
-    window.location.href = '/api/auth';
+    window.location.href = '/api/auth'; // Redirect to the OAuth process
   };
 
   return (
     <div>
-      <h1>DeviantArt OAuth Test</h1>
-      {!token ? (
+      <h1>Welcome to DeviantArt OAuth Demo</h1>
+      {!isLoggedIn ? (
         <button onClick={handleLogin}>Login with DeviantArt</button>
       ) : (
-        <p>Access Token: {token}</p>
+        <button onClick={() => window.location.href = '/gallery'}>Go to Gallery</button>
       )}
-      {error && <p>Error: {error}</p>}
     </div>
   );
 }
+
+
+// ... existing code...
