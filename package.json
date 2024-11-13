@@ -1,6 +1,6 @@
 {
   "name": "deviantart-api-frontend",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "dependencies": {
     "@babel/core": "^7.0.0-0",
@@ -11,11 +11,13 @@
     "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
     "glob": "^11.0.0",
+    "js-cookie": "^3.0.5",
     "js-tokens": "^9.0.0",
     "mongoose": "^8.7.2",
     "next": "^15.0.2",
     "package.json": "^2.0.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.5",
     "react-dom": "^18.2.0",
     "rimraf": "^6.0.1",
     "sqlite": "^5.1.1",

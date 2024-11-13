@@ -12,7 +12,7 @@ const DB_FILE = process.env.NEXT_PUBLIC_DB_FILE;
 const generateState = () => crypto.randomBytes(STATE_LENGTH).toString('hex');
 const generateSessionId = () => crypto.randomBytes(STATE_LENGTH).toString('hex');
 
-export const redirectToAuth = (res) => {
+const redirectToAuth = (res) => {
   const state = generateState();
   const sessionId = generateSessionId();
   console.log('Generated state:', state);
@@ -30,7 +30,7 @@ export const redirectToAuth = (res) => {
   });
 };
 
-export const exchangeCodeForToken = async (code, state, req, res) => {
+const exchangeCodeForToken = async (code, state, req, res) => {
   try {
     const tokenEndpoint = `https://www.deviantart.com/oauth2/token`;
     const response = await axios.post(tokenEndpoint, new URLSearchParams({
@@ -87,6 +87,7 @@ export const handleRedirectCallback = async (req, res) => {
     // Set token in cookies
     res.setHeader('Set-Cookie', serialize('access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'strict' }));
   }
+<<<<<<< HEAD
 
   if (stateParam) {
     // Handle state parameter (if necessary)
@@ -95,3 +96,8 @@ export const handleRedirectCallback = async (req, res) => {
   // Redirect to home page
   res.redirect('/');
 };
+=======
+};
+
+export { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, STATE_LENGTH, generateState, redirectToAuth, exchangeCodeForToken };
+>>>>>>> main
