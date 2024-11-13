@@ -20,3 +20,7 @@ export default async function handler(req, res) {
     }
   }
 }
+
+export default async function retrieveGallery(req, res) {
+  console.log('Checking for token', token)
+}

@@ -1,33 +1,21 @@
-// pages/index.js
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Home() {
-  const [token, setToken] = useState(null);
-  const [error, setError] = useState(null);
+const Home = () => {
+  const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-
-    if (accessToken) {
-      setToken(accessToken);
-    }
+    axios.get('/api/gallery?query=SELECT * FROM artworks')
+      .then(response => {
+        setArtworks(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
-
-  const handleLogin = () => {
-    window.location.href = '/api/auth';
-  };
 
   return (
     <div>
-      <h1>DeviantArt OAuth Test</h1>
-      {!token ? (
-        <button onClick={handleLogin}>Login with DeviantArt</button>
-      ) : (
-        <p>Access Token: {token}</p>
-      )}
-      {error && <p>Error: {error}</p>}
+      {/* Render your component here */}
     </div>
   );
-}
+};
