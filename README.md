@@ -2,26 +2,8 @@
 ===============
 
 **DeviantArt API Frontend**
----------------------------
-
-*   Framework: Next.js
-*   Pages:
-    *   index.js: Handles initiating Auth Flow and fetches deviations
-    *   _app.js: Authenticates user and fetches galleries
-    *   Deviation.js: Defines Deviation db structure.
-*   APIs:
-    *   _api.js: Handles authentication and fetches
-    *   auth.js: Handles authentication
-
-**DeviantArt Auth Server**
--------------------------
-
-*   Framework: Express.js
-*   Endpoints:
-    *   /login: Redirects to DeviantArt authorization page
-    *   /callback: Handles authorization code and exchanges it for access token
-    *   
-
+Oauth Auth only thing working with refresh tokens 
+working on the accesstoken handling as it's required for calls against deviantart's gallery endpoint.
 **Key Components**
 -------------------
 
