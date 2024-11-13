@@ -2,8 +2,15 @@
 ===============
 
 **DeviantArt API Frontend**
-Oauth Auth only thing working with refresh tokens 
-working on the accesstoken handling as it's required for calls against deviantart's gallery endpoint.
+-------------------
+* Oauth Auth only thing working with refresh tokens
+* access_token, refresh_token, sessionId, state all store successfully in sqlite3 db for now.
+  
+**TODO**
+-------------------
+ *   working on the accesstoken handling as it's required for calls against deviantart's gallery endpoint.
+
+   
 **Key Components**
 -------------------
 
